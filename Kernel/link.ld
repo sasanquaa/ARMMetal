@@ -1,7 +1,4 @@
-INPUT(boot.o main.o)
 ENTRY(_start)
-
-OUTPUT(main.elf)
 
 MEMORY 
 {
@@ -12,7 +9,6 @@ MEMORY
 SECTIONS
 {
     .text : { 
-        boot.o(.text) 
         *(.text) 
         *(.rodata) 
     } > ROM

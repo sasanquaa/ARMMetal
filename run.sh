@@ -1,9 +1,6 @@
-#!/bin/bash
+#/bin/bash
 
-arm-none-eabi-gcc -c boot.S main.c &&
-arm-none-eabi-ld -T link.ld &&
-qemu-system-arm -nographic -M virt -kernel main.elf &&
+./build.sh &&
+qemu-system-arm -nographic -M virt -kernel build/Kernel/Main &&
 clear &&
-arm-none-eabi-objdump -Shsd main.elf &&
-rm boot.o main.o main.elf
-
+arm-none-eabi-objdump -Shsd build/Kernel/Main
