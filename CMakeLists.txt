@@ -16,5 +16,3 @@ set(CMAKE_OBJCOPY ${TOOLCHAIN_PREFIX}objcopy)
 project(ARMMetal C ASM)
 
 add_subdirectory(Kernel)
-
-

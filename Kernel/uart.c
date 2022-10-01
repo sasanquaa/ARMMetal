@@ -22,39 +22,39 @@
 
 static volatile uint32_t* const UART0_BASE = (volatile uint32_t*)UART0_BASE_OFFSET;
 
-volatile uint32_t* const reg_uart(const volatile uint32_t* const uart, const uint32_t offset)
+volatile uint32_t* const reg_uart(const uint32_t offset)
 {
-    return (volatile uint32_t* const)(uart + offset);
+    return (volatile uint32_t* const)(UART0_BASE + offset);
 }
 
-void wait_uart(const volatile uint32_t* const uart)
+void wait_uart()
 {
-    while ((*reg_uart(uart, UART_FR_OFFSET) & UART_FR_BUSY) != 0) { }
+    while ((*reg_uart(UART_FR_OFFSET) & UART_FR_BUSY) != 0) { }
 }
 
-void print_uart(volatile uint32_t* const uart, const char* s)
+void print_uart(const char* s)
 {
-    wait_uart(uart);
+    wait_uart();
     while (*s != '\0') {
-        *reg_uart(uart, UART_DR_OFFSET) = *(s++);
-        wait_uart(uart);
+        *reg_uart(UART_DR_OFFSET) = *(s++);
+        wait_uart();
     }
 }
 
-void setup_uart(volatile uint32_t* const uart)
+void setup_uart()
 {
-    const uint32_t cr = *reg_uart(uart, UART_CR_OFFSET);
-    const uint32_t lcrh = *reg_uart(uart, UART_LCRH_OFFSET);
+    const uint32_t cr = *reg_uart(UART_CR_OFFSET);
+    const uint32_t lcrh = *reg_uart(UART_LCRH_OFFSET);
     const uint32_t dbaud = 4 * UART_BASE_CLOCK / 115200;
     const uint32_t ibaud = dbaud & 0x3f;
     const uint32_t fbaud = (dbaud >> 6) & 0xffff;
 
-    *reg_uart(uart, UART_CR_OFFSET) = cr & UART_CR_UARTEN;
-    wait_uart(uart);
-    *reg_uart(uart, UART_LCRH_OFFSET) = lcrh & ~UART_LCRH_FEN;
-    *reg_uart(uart, UART_IBRD_OFFSET) = ibaud;
-    *reg_uart(uart, UART_FBRD_OFFSET) = fbaud;
-    *reg_uart(uart, UART_IMSC_OFFSET) = 0x0;
-    *reg_uart(uart, UART_DMACR_OFFSET) = 0x0;
-    *reg_uart(uart, UART_CR_OFFSET) = UART_CR_TXEN | UART_CR_UARTEN;
+    *reg_uart(UART_CR_OFFSET) = cr & UART_CR_UARTEN;
+    wait_uart();
+    *reg_uart(UART_LCRH_OFFSET) = lcrh & ~UART_LCRH_FEN;
+    *reg_uart(UART_IBRD_OFFSET) = ibaud;
+    *reg_uart(UART_FBRD_OFFSET) = fbaud;
+    *reg_uart(UART_IMSC_OFFSET) = 0x0;
+    *reg_uart(UART_DMACR_OFFSET) = 0x0;
+    *reg_uart(UART_CR_OFFSET) = UART_CR_TXEN | UART_CR_UARTEN;
 }
