@@ -9,6 +9,7 @@ set(TOOLCHAIN_PREFIX /opt/gcc-arm-none-eabi/bin/arm-none-eabi-)
 
 set(CMAKE_AR ${TOOLCHAIN_PREFIX}ar)
 set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}gcc)
+set(CMAKE_CXX_COMPILER ${TOOLCHAIN_PREFIX}gcc)
 set(CMAKE_ASM_COMPILER ${TOOLCHAIN_PREFIX}gcc)
 set(CMAKE_LINKER ${TOOLCHAIN_PREFIX}ld)
 set(CMAKE_OBJCOPY ${TOOLCHAIN_PREFIX}objcopy)
@@ -16,3 +17,4 @@ set(CMAKE_OBJCOPY ${TOOLCHAIN_PREFIX}objcopy)
 project(ARMMetal C ASM)
 
 add_subdirectory(Kernel)
+add_subdirectory(LibC)
