@@ -1,4 +1,4 @@
-set(KERNEL_SOURCES Main.cpp Kmalloc.cpp Uart.h Uart.cpp Slab.h Slab.cpp)
+set(KERNEL_SOURCES Main.cpp Kmalloc.h Uart.h Slab.h Slab.cpp)
 
 add_library(Kernel ${KERNEL_SOURCES})
 target_include_directories(Kernel PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

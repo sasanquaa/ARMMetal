@@ -4,6 +4,7 @@ MEMORY
 {
     ROM (rx) : ORIGIN = 0x00000000, LENGTH = 1M
     RAM (rwx) : ORIGIN = 0x40000000, LENGTH = 32M 
+    /* RAMU (rwx) : ORIGIN = 0x40100000, LENGTH = 32M */ 
 }
 
 SECTIONS
@@ -28,10 +29,12 @@ SECTIONS
         *(.bss) 
         BSS_END = .;
         . += 0x10000;
+        . = ALIGN(8);
         STACK_TOP = .;
         . = ALIGN(8);
         HEAP_START = .;
-        . += 0x10000;
+        . += 0x400000;
+        . = ALIGN(8);
         HEAP_END = .;
     } > RAM
 
