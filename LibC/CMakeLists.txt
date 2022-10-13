@@ -1,5 +1,6 @@
-set(LIBC_HEADERS 
+set(LIBC_SOURCES
     assert.h
+    assert.cpp
     complex.h
     ctype.h
     errno.h
@@ -10,6 +11,7 @@ set(LIBC_HEADERS
     limits.h
     locale.h
     math.h
+    math.cpp
     setjmp.h
     signal.h
     stdalign.h
@@ -18,7 +20,9 @@ set(LIBC_HEADERS
     stdbool.h
     stdint.h
     stdio.h
+    stdio.cpp
     stdlib.h
+    stdlib.cpp
     stdnoreturn.h
     string.h
     tgmath.h
@@ -26,7 +30,12 @@ set(LIBC_HEADERS
     time.h
     uchar.h
     wchar.h
-    wctype.h
-)
+    wctype.h)
 
-add_library(LibC ${LIBC_HEADERS})
+add_library(LibC ${LIBC_SOURCES})
+target_include_directories(LibC PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_options(
+  LibC PUBLIC $<$<COMPILE_LANGUAGE:C,CXX,ASM>:-fno-exceptions -nodefaultlibs
+              -c>)
+target_link_options(LibC PUBLIC $<$<COMPILE_LANGUAGE:C,CXX,ASM>:-nostartfiles
+                    -ffreestanding>)
