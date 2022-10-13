@@ -9,8 +9,9 @@ MEMORY
 SECTIONS
 {
     .text : { 
-        *(.text) 
+        *(.text*) 
         *(.rodata) 
+        *(.init_array)
     } > ROM
     
     TEXT_END = .;
@@ -28,6 +29,10 @@ SECTIONS
         BSS_END = .;
         . += 0x10000;
         STACK_TOP = .;
+        . = ALIGN(8);
+        HEAP_START = .;
+        . += 0x10000;
+        HEAP_END = .;
     } > RAM
 
 }

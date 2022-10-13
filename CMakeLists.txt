@@ -18,6 +18,7 @@ project(ARMMetal CXX ASM)
 
 add_subdirectory(Kernel)
 add_subdirectory(LibC)
+add_subdirectory(Boot)
 
 execute_process(
   COMMAND
