@@ -3,3 +3,4 @@
 Build/
 Ignored/
 .git/
+compile_commands.json
