@@ -2,12 +2,13 @@
 
 namespace Kernel {
 
-Slab::Slab(uint32_t buffer_ptr, size_t buffer_count, size_t buffer_size, size_t align_size)
-    : m_buffer_list((Buffer*)buffer_ptr)
-    , m_buffer_count(buffer_count)
-    , m_buffer_size(buffer_size)
-    , m_ref_count(0)
+void Slab::init(uintptr_t buffer_ptr, size_t buffer_count, size_t buffer_size, size_t align_size)
 {
+    m_buffer_list = (Buffer*)buffer_ptr;
+    m_buffer_count = buffer_count;
+    m_buffer_size = buffer_size;
+    m_ref_count = 0;
+
     size_t slab_size = sizeof(Buffer);
     size_t buffer_aligned_size = buffer_size + slab_size + align_size;
     for (auto i = 1; i < m_buffer_count; i++) {
@@ -19,7 +20,7 @@ Slab::Slab(uint32_t buffer_ptr, size_t buffer_count, size_t buffer_size, size_t 
     }
 }
 
-bool Slab::alloc(uint32_t* ptr, size_t size)
+bool Slab::alloc(uintptr_t* ptr, size_t size)
 {
     if (size != m_buffer_size || m_ref_count == m_buffer_count) {
         return false;
@@ -27,7 +28,7 @@ bool Slab::alloc(uint32_t* ptr, size_t size)
     for (auto buffer = m_buffer_list; buffer != nullptr; buffer = buffer->m_next) {
         if (!buffer->m_occupied) {
             buffer->m_occupied = true;
-            *ptr = (uint32_t)buffer->m_ptr;
+            *ptr = (uintptr_t)buffer->m_ptr;
             m_ref_count++;
             break;
         }

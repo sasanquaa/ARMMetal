@@ -15,9 +15,9 @@ public:
 
     Slab() = default;
 
-    Slab(uint32_t buffer_ptr, size_t buffer_count, size_t buffer_size, size_t align_size);
+    void init(uintptr_t buffer_ptr, size_t buffer_count, size_t buffer_size, size_t align_size);
 
-    bool alloc(uint32_t* ptr, size_t size);
+    bool alloc(uintptr_t* ptr, size_t size);
 
     bool free(void* ptr);
 

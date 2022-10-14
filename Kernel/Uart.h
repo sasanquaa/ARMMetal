@@ -10,7 +10,7 @@ static const uint32_t DBAUD = 4 * CPU_BASE_CLOCK / 115200;
 static const uint16_t IBAUD = DBAUD & 0x3f;
 static const uint8_t FBAUD = (DBAUD >> 6) & 0xff;
 
-static const uint32_t UART0_BASE = 0x09000000;
+static const uintptr_t UART0_BASE = 0x09000000;
 static volatile uint16_t* const UART0_DR = (volatile uint16_t*)UART0_BASE;
 static volatile uint16_t* const UART0_FR = (volatile uint16_t*)(UART0_BASE + 0x018);
 static volatile uint16_t* const UART0_CR = (volatile uint16_t*)(UART0_BASE + 0x030);

@@ -3,19 +3,16 @@ ENTRY(_start)
 MEMORY 
 {
     ROM (rx) : ORIGIN = 0x00000000, LENGTH = 1M
-    RAM (rwx) : ORIGIN = 0x40000000, LENGTH = 32M 
-    /* RAMU (rwx) : ORIGIN = 0x40100000, LENGTH = 32M */ 
+    RAM (rwx) : ORIGIN = 0x40000000, LENGTH = 127M 
 }
 
 SECTIONS
 {
     .text : { 
         *(.text*) 
-        *(.rodata) 
-        *(.init_array)
+        . = ALIGN(8);
+        TEXT_END = .;
     } > ROM
-    
-    TEXT_END = .;
 
     .data : AT(ADDR(.text) + SIZEOF(.text)) { 
         DATA_START = .;
@@ -24,18 +21,26 @@ SECTIONS
         DATA_END = .;
     } > RAM
 
+    .rodata : {
+        RODATA_START = .;
+        *(.rodata)
+        . = ALIGN(8);
+        RODATA_END = .;
+    } > RAM
+
     .bss : { 
         BSS_START = .;
         *(.bss) 
+        . = ALIGN(8);
         BSS_END = .;
-        . += 0x10000;
-        . = ALIGN(8);
-        STACK_TOP = .;
-        . = ALIGN(8);
-        HEAP_START = .;
-        . += 0x400000;
-        . = ALIGN(8);
-        HEAP_END = .;
     } > RAM
+
+    HEAP_START = .;
+
+    STACK_START = ALIGN(ORIGIN(RAM) + LENGTH(RAM));
+
+    /DISCARD/ : {
+        *(.init_array)
+    }
 
 }
