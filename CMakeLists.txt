@@ -5,7 +5,7 @@ set(CMAKE_SYSTEM_PROCESSOR arm)
 
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
-set(TOOLCHAIN_PREFIX /opt/gcc-arm-none-eabi/bin/arm-none-eabi-)
+set(TOOLCHAIN_PREFIX /opt/gcc-aarch64-none-elf/bin/aarch64-none-elf-)
 
 set(CMAKE_AR ${TOOLCHAIN_PREFIX}ar)
 set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}gcc)
