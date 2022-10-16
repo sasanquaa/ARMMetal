@@ -33,7 +33,6 @@ set(LIBC_SOURCES
     wctype.h)
 
 add_library(LibC ${LIBC_SOURCES})
-target_include_directories(LibC PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_options(
   LibC PUBLIC $<$<COMPILE_LANGUAGE:C,CXX,ASM>:-fno-exceptions -nodefaultlibs
               -c>)

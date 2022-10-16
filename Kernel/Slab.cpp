@@ -1,4 +1,4 @@
-#include <Slab.h>
+#include <Kernel/Slab.h>
 
 namespace Kernel {
 

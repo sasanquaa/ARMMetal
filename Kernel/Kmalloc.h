@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Slab.h>
-#include <Uart.h>
+#include <Kernel/Slab.h>
+#include <Kernel/Uart.h>
 #include <stdint.h>
 
 extern char HEAP_START;
@@ -90,6 +90,11 @@ void* operator new[](size_t size)
 }
 
 void operator delete(void* ptr)
+{
+    Kernel::Kmalloc::kfree(ptr);
+}
+
+void operator delete(void* ptr, size_t size)
 {
     Kernel::Kmalloc::kfree(ptr);
 }

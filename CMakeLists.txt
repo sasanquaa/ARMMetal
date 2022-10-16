@@ -16,6 +16,8 @@ set(CMAKE_OBJCOPY ${TOOLCHAIN_PREFIX}objcopy)
 
 project(ARMMetal CXX ASM)
 
+include_directories(.)
+
 add_subdirectory(Kernel)
 add_subdirectory(LibC)
 add_subdirectory(Boot)
