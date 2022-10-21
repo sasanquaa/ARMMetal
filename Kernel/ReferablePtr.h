@@ -1,19 +1,28 @@
 #pragma once
 
 #include <Kernel/ReferableUtils.h>
-#include <Kernel/UniquePtrForward.h>
-#include <LibC/assert.h>
+
+namespace Kernel {
+
+template<typename T>
+class WeakPtr;
+
+template<typename T>
+class UniquePtr;
 
 template<typename T>
 class ReferablePtr {
 public:
-    ReferablePtr() = default;
+    template<typename = RequiresExtend<Referable, T>>
+    ReferablePtr() { }
 
+    template<typename = RequiresExtend<Referable, T>>
     explicit ReferablePtr(const T* ptr)
         : ReferablePtr(ptr, false)
     {
     }
 
+    template<typename = RequiresExtend<Referable, T>>
     ReferablePtr(const T* ptr, bool raw)
         : m_ptr(const_cast<T*>(ptr))
     {
@@ -22,6 +31,7 @@ public:
         }
     }
 
+    template<typename = RequiresExtend<Referable, T>>
     explicit ReferablePtr(const T& obj)
         : m_ptr(const_cast<T*>(&obj))
     {
@@ -30,12 +40,6 @@ public:
 
     ReferablePtr(const ReferablePtr<T>& other)
         : m_ptr(const_cast<ReferablePtr<T>&>(other).raw())
-    {
-        ref_if_not_null(m_ptr);
-    }
-
-    ReferablePtr(ReferablePtr<T>&& other)
-        : m_ptr(other.raw())
     {
         ref_if_not_null(m_ptr);
     }
@@ -64,12 +68,6 @@ public:
         return *this;
     }
 
-    ReferablePtr& operator=(ReferablePtr<T>&& other)
-    {
-        swap(const_cast<T*>(other.raw()));
-        return *this;
-    }
-
     T* operator->()
     {
         assert(m_ptr);
@@ -91,6 +89,11 @@ public:
         return ptr;
     }
 
+    WeakPtr<T> as_weak()
+    {
+        return WeakPtr<T>(raw());
+    }
+
     operator bool() { return m_ptr != nullptr; }
 
 private:
@@ -104,3 +107,5 @@ private:
 
     T* m_ptr = nullptr;
 };
+
+}

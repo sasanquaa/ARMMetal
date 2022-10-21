@@ -6,14 +6,15 @@ set(KERNEL_SOURCES
     Slab.cpp
     Referable.h
     ReferableUtils.h
+    Traits.h
     ReferablePtr.h
-    ReferablePtrForward.h
-    UniquePtr.h
-    UniquePtrForward.h)
+    WeakPtr.h
+    WeaklyReferable.h
+    UniquePtr.h)
 
 add_library(Kernel ${KERNEL_SOURCES})
 target_compile_options(
-  Kernel PUBLIC $<$<COMPILE_LANGUAGE:C,CXX,ASM>:-fno-exceptions -nodefaultlibs
-                -c>)
+  Kernel PUBLIC $<$<COMPILE_LANGUAGE:C,CXX,ASM>:-fno-exceptions -fno-rtti
+                -nodefaultlibs -c>)
 target_link_options(Kernel PUBLIC $<$<COMPILE_LANGUAGE:C,CXX,ASM>:-nostartfiles
                     -ffreestanding>)

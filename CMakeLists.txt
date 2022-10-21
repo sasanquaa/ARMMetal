@@ -7,12 +7,10 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 set(TOOLCHAIN_PREFIX /opt/gcc-aarch64-none-elf/bin/aarch64-none-elf-)
 
-set(CMAKE_AR ${TOOLCHAIN_PREFIX}ar)
 set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}gcc)
 set(CMAKE_CXX_COMPILER ${TOOLCHAIN_PREFIX}gcc)
 set(CMAKE_ASM_COMPILER ${TOOLCHAIN_PREFIX}gcc)
 set(CMAKE_LINKER ${TOOLCHAIN_PREFIX}ld)
-set(CMAKE_OBJCOPY ${TOOLCHAIN_PREFIX}objcopy)
 
 project(ARMMetal CXX ASM)
 
@@ -21,6 +19,7 @@ include_directories(.)
 add_subdirectory(Kernel)
 add_subdirectory(LibC)
 add_subdirectory(Boot)
+add_subdirectory(Test)
 
 execute_process(
   COMMAND
